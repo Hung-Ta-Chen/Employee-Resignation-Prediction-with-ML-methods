@@ -11,15 +11,13 @@ from sklearn.tree import DecisionTreeClassifier as dtc
 from sklearn.tree import ExtraTreeClassifier as etc
 from  sklearn.ensemble import RandomForestClassifier, VotingClassifier
 import csv
-# from sklearn.metrics import f1_score
-import random
 from xgboost import XGBClassifier
 import pandas as pd 
 import csv
 import math
-import random
 import numpy as np
 from sklearn.metrics import precision_recall_fscore_support as f1_score
+import secrets
 
 # def f1_score(pred, label,average):
 #     tp = 0.0
@@ -115,11 +113,11 @@ with open("deal2_test.csv", 'w', newline='', encoding="Big5") as Csv:
         wcsv.writerow(i)
 max_f1 = 0
 while True:
-    myseed = random.randint(0,100000),
+    myseed = secrets.SystemRandom().randint(0,100000),
     # myseed =5445
-    random.seed(myseed)
+    secrets.SystemRandom().seed(myseed)
     np.random.seed(myseed)
-    random.shuffle(dtr)
+    secrets.SystemRandom().shuffle(dtr)
 
 
     k = 0
@@ -146,7 +144,7 @@ while True:
     with open(tr_path, 'r', encoding="Big5") as fp:
                 data = list(csv.reader(fp))
                 data = np.array([list(map(float,i)) for i in data[1:]]).astype(float)
-                random.shuffle(data)
+                secrets.SystemRandom().shuffle(data)
                 x_tr = [data[i][2:] for i in range(len(data)) if i % 10 <= 6]
                 y_tr = [data[i][1] for i in range(len(data)) if i % 10 <= 6]
                 x_va = [data[i][2:] for i in range(len(data)) if i % 10 > 6]

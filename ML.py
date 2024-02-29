@@ -11,18 +11,18 @@ from sklearn.tree import DecisionTreeClassifier as dtc
 from sklearn.tree import ExtraTreeClassifier as etc
 from  sklearn.ensemble import RandomForestClassifier, VotingClassifier
 import csv
-# from sklearn.metrics import f1_score
-import random
 from xgboost import XGBClassifier
 from sklearn.metrics import precision_recall_fscore_support as f1_score
 from sklearn import svm
 from sklearn.cluster import DBSCAN
+import secrets
+
 times = 20
 f1 = 0
 
 for _ in range(times):
-    myseed = random.randint(0,100000)
-    random.seed(myseed)
+    myseed = secrets.SystemRandom().randint(0,100000)
+    secrets.SystemRandom().seed(myseed)
     np.random.seed(myseed)
 
     tr_path = 'deal3_train.csv'  # path to training data
@@ -33,7 +33,7 @@ for _ in range(times):
     with open(tr_path, 'r', encoding="Big5") as fp:
                 data = list(csv.reader(fp))
                 data = np.array([list(map(float,i)) for i in data[1:]]).astype(float)
-                random.shuffle(data)
+                secrets.SystemRandom().shuffle(data)
                 x_tr = [data[i][2:] for i in range(len(data)) if i % 10 <= 6]
                 y_tr = [data[i][1] for i in range(len(data)) if i % 10 <= 6]
                 x_va = [data[i][2:] for i in range(len(data)) if i % 10 > 6]
